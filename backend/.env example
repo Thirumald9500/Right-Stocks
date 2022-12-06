@@ -1,0 +1,11 @@
+#DATABASE
+
+DB_NAME = "job"
+DB_USERNAME = "root"
+DB_PASSSWORD = "9500770814"
+DB_HOST = "127.0.0.1"
+DB_PORT = "3306"
+
+#JWT Token Secrete
+
+JWT_TOKEN_SECRETE = "abcd"
