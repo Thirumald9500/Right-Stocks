@@ -18,6 +18,7 @@ router.use(cors({
 router.get('/',homecontroler.home);
 router.post('/register',jsonparser,homecontroler.register);
 router.post('/login',jsonparser,homecontroler.login);
+router.get('/companydetails',homecontroler)
 
 
 //athunticated

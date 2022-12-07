@@ -1,4 +1,5 @@
 const {User} = require('../model/users');
+const {Company} = require('../model/stockcompany')
 const crypto = require("cryptr");
 const cryptr = new crypto('myTotallySecretKey');
 const jwt = require("jsonwebtoken");
@@ -65,4 +66,9 @@ const home2 = async(req,res) => {
 
 }
 
-module.exports = {home,register,login,home2}
+const companydetails = async(req,res)=>{
+    let compny = await Company.find()
+    res.send(compny)
+}
+
+module.exports = {home,register,login,home2,companydetails}
