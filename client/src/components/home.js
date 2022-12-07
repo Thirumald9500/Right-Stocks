@@ -1,51 +1,72 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { Company_details } from '../apiservice/apisrevice';
 
-
-const Search = (id) => {
-    const [stockXvalue,setStockXvalue] = useState([]);
-    const [stockYvalue,setStockYvalue] = useState([]);
+const Search = () => {
     const [stockSymbol,setStockSymbol] = useState("");
+    const [stockdata,setStockdata] = useState([]);
+    const [noofstock,setstockcount] = useState(0);
+    const [dateyes,setdateyes] = useState();
+    let last_data = '';
+    
     const FetchingData=async(e)=>{
         e.preventDefault();
         setStockSymbol(e.target[0].value);
-        let stockXvaluefunction =[];
-        let stockYvaluefunction =[];
-        const API_KEY="DUMMY";
+        const API_KEY="TZ5ZMR1HSDJZZV46";
         // const STOCK_SYMBOL=" "
         let API_URL=`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&outputsize=compact&apikey=${API_KEY}`
         
         const res = await axios.get(API_URL)
-        console.log(res.data);
-        for(var key in res.data["Time Series (Daily)"]){
-            stockXvaluefunction.push(key);
-            stockYvaluefunction.push(res.data["Time Series (Daily)"][key]["4. close"]);
-        }
-        setStockXvalue(stockXvaluefunction);
-        setStockYvalue(stockYvaluefunction);
+        console.log(res.data["Time Series (Daily)"]);
+        let date1 = res.data["Time Series (Daily)"];
+        let last_data = Object.values(date1)[0];
+        setdateyes(Object.keys(date1)[0]);
+        console.log(last_data);
+        setStockdata(last_data);
+        //console.log(stockdata["1. open"]);
     }
-    const handleWatchList =()=>{
-      console.log(id);
-    }
+
   return (
     <div>
       <form onSubmit={FetchingData}>
           <h1>Stock Chart</h1>
           <input value={stockSymbol} onChange={(e)=>{setStockSymbol(e.target.value)}} type="text" />
-          {/* <Plot
-              data={[
-                {
-                  x: stockXvalue,
-                  y: stockYvalue,
-                  type: 'scatter',
-                  mode: 'lines+markers',
-                  marker: {color: 'red'},
-                }]}
-              layout={ {width: 720, height: 440, title: `${stockSymbol}`} }
-          /> */}
+          
           <button>Fetch</button>
-          <button onClick={handleWatchList} >Add to WatchList</button>
+          <button  >Add to WatchList</button>
       </form>
+      <br></br>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card text-bg-dark mb-3" >
+            <div class="card-body ">
+              <h5 class="card-title">{stockSymbol}</h5>
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <b>OPEN : </b>{stockdata["1. open"]}
+                  </li>
+                  <li class="list-group-item"><b>HIGH : </b>{stockdata["2. high"]}</li>
+                  <li class="list-group-item"><b>LOW : </b>{stockdata["3. low"]}</li>
+                  <li class="list-group-item"><b>CLOSE : </b>{stockdata["4. close"]}</li>
+                  <li class="list-group-item"><b>DATE : </b>{dateyes}</li>
+                </ul>
+              
+              <form onSubmit={(e)=>e.preventDefault()}>
+                <input
+                  className='form-control'
+                  type='number'
+                  placeholder='no of stocks'
+                  value={noofstock}
+                  onChange={(e)=>setstockcount(e.target.value)}
+                />
+                <input type='hidden' value={stockSymbol} name='stockcompany'/>
+                <button type='submit' className='btn btn-primary'>BUY</button>
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
 </div> )
 }
 export default Search
