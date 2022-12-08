@@ -22,7 +22,7 @@ const Search = () => {
     const FetchingData=async(e)=>{
         e.preventDefault();
         setStockSymbol(e.target[0].value);
-        const API_KEY="TZ5ZMR1HSDJZZV46";
+        const API_KEY="";
         // const STOCK_SYMBOL=" "
         let API_URL=`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&outputsize=compact&apikey=${API_KEY}`
         
