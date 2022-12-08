@@ -1,14 +1,24 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Company_details } from '../apiservice/apisrevice';
+import { useNavigate } from 'react-router-dom';
+// import { Company_details } from '../apiservice/apisrevice';
+
 
 const Search = () => {
     const [stockSymbol,setStockSymbol] = useState("");
+    const navigate = useNavigate();
     const [stockdata,setStockdata] = useState([]);
+    // const [buyStock,setbuyStock] = useState({
+    //   nameofstock:"amxn",
+    //   buyingprice:0,
+    //   quantity:0,
+    //   amount:0,
+    //   sellingprice:0
+    // });
     const [noofstock,setstockcount] = useState(0);
     const [dateyes,setdateyes] = useState();
     let last_data = '';
-    
+
     const FetchingData=async(e)=>{
         e.preventDefault();
         setStockSymbol(e.target[0].value);
@@ -25,11 +35,17 @@ const Search = () => {
         setStockdata(last_data);
         //console.log(stockdata["1. open"]);
     }
+    const sale = () => {
+        // stockdata_post({"nameofstock":stockSymbol,"buyingprice":stockdata["1. open"],"quantity":noofstock}).then((res)=>{
+        //   console.log('buyer');
+        // })
+        navigate('/sell',{state:{"nameofstock":stockSymbol,"buyingprice":stockdata["1. open"],"quantity":noofstock}})
+    }
 
   return (
     <div>
       <form onSubmit={FetchingData}>
-          <h1>Stock Chart</h1>
+          <h1>Stocks</h1>
           <input value={stockSymbol} onChange={(e)=>{setStockSymbol(e.target.value)}} type="text" />
           
           <button>Fetch</button>
@@ -40,7 +56,7 @@ const Search = () => {
         <div class="col-lg-6">
           <div class="card text-bg-dark mb-3" >
             <div class="card-body ">
-              <h5 class="card-title">{stockSymbol}</h5>
+              <h5 class="card-title">{stockSymbol} Stocks</h5>
                 <ul class="list-group">
                   <li class="list-group-item">
                     <b>OPEN : </b>{stockdata["1. open"]}
@@ -48,19 +64,21 @@ const Search = () => {
                   <li class="list-group-item"><b>HIGH : </b>{stockdata["2. high"]}</li>
                   <li class="list-group-item"><b>LOW : </b>{stockdata["3. low"]}</li>
                   <li class="list-group-item"><b>CLOSE : </b>{stockdata["4. close"]}</li>
+                  <li class="list-group-item"><b>STOCKS AVAILABE : </b>{stockdata["6. volume"]}</li>
                   <li class="list-group-item"><b>DATE : </b>{dateyes}</li>
                 </ul>
               
               <form onSubmit={(e)=>e.preventDefault()}>
-                <input
+                Enter The Stocks To Buy<input
                   className='form-control'
                   type='number'
                   placeholder='no of stocks'
                   value={noofstock}
                   onChange={(e)=>setstockcount(e.target.value)}
+                  required
                 />
                 <input type='hidden' value={stockSymbol} name='stockcompany'/>
-                <button type='submit' className='btn btn-primary'>BUY</button>
+                <button type='button' onClick={sale} className='btn btn-primary'>BUY</button>
               </form>
               
             </div>
@@ -69,7 +87,8 @@ const Search = () => {
       </div>
 </div> )
 }
-export default Search
+export default Search;
+
 
 
 

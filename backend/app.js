@@ -2,6 +2,7 @@ const express = require("express");
 const home = require('./route.js');
 const db = require("./model/database");
 const {cpy} = require('./model/stockcompany');
+const {Stocks} = require('./model/stockdata');
 
 const app = express();
 

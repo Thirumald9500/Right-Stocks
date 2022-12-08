@@ -10,6 +10,8 @@ const home_url = "home2";
 
 const Company_details_url = "companydetails";
 
+const stockdata_url = "stockdata";
+
 const Login_post = (data)=>{
     console.log('insidepost');
     return axios.post(main_url+login_url,data)
@@ -27,4 +29,8 @@ const Company_details = () => {
     return axios.get(main_url+Company_details_url)
 }
 
-export {Login_post,Register_post,Home,Company_details}
+const stockdata_post = (data) =>{
+    return axios.post(main_url+stockdata_url,data)
+}
+
+export {Login_post,Register_post,Home,Company_details,stockdata_post}

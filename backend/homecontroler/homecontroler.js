@@ -71,4 +71,9 @@ const companydetails = async(req,res)=>{
     res.send(compny)
 }
 
-module.exports = {home,register,login,home2,companydetails}
+const stock_data = async(req,res)=>{
+    let data = req.body;
+    console.log(data,'inend');
+}
+
+module.exports = {home,register,login,home2,companydetails,stock_data}
